@@ -1,0 +1,317 @@
+{% extends 'partials/authentication/mainbase.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block extra_css %}
+    <link href="{% static 'css/bootstrap.min.css' %}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="{% static 'css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="{% static 'css/app.min.css' %}" id="app-style" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+{% block contents %}
+
+<div class="row">
+    <div class="col-lg-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <img src="{% static 'images/brands/audit-round-small.png' %}" alt="" class="avatar-md rounded-circle mx-auto d-block" />
+                    <h5 class="mt-3 mb-1">{{user.first_name }} {{ user.middle_name }} {{user.last_name}}</h5>
+                    <p class="text-muted">{{user.address}},{{user.city}}</p>
+                    <div class="mx-auto">
+                        <span class="badge text-bg-info">{{user.email}}</span>
+                        <span class="badge text-bg-success">{{user.phone_number}}</span>
+                        
+                    </div>
+                </div>
+                <ul class="list-unstyled vstack gap-3 mb-0">
+                    <li>
+                        <div class="d-flex">
+                            <i class='bx bx-money font-size-18 text-primary'></i>
+                            <div class="ms-3">
+                                <h6 class="mb-1 fw-semibold">National Identification No:</h6>
+                                <span class="text-muted">{{user.ghanacard}}</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="d-flex">
+                            <i class='bx bx-user font-size-18 text-primary'></i>
+                            <div class="ms-3">
+                                <h6 class="mb-1 fw-semibold">Gender:</h6>
+                                {{user.gender}}
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="d-flex">
+                            <i class='bx bx-calendar font-size-18 text-primary'></i>
+                            <div class="ms-3">
+                                <h6 class="mb-1 fw-semibold">Date of Birth:</h6>
+                                <span class="text-muted">{{user.dob}}</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="d-flex">
+                            <i class='bx bx-map font-size-18 text-primary'></i>
+                            <div class="ms-3">
+                                <h6 class="mb-1 fw-semibold">Place of Birth:</h6>
+                                <span class="text-muted">{{user.place_of_birth}}</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="d-flex">
+                            <i class='bx bx-map font-size-18 text-primary'></i>
+                            <div class="ms-3">
+                                <h6 class="mb-1 fw-semibold">GPS/Location:</h6>
+                                <span class="text-muted">{{user.gps}}</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="d-flex">
+                            <i class='mdi mdi-book-education font-size-18 text-primary'></i>
+                            <div class="ms-3">
+                                <h6 class="mb-1 fw-semibold">Position Applying For:</h6>
+                                <span class="text-muted">{{user.grade}}</span>
+                            </div>
+                        </div>
+                    </li>
+                   
+                    <li>
+                        <div class="d-flex">
+                            <i class='bx bx-map font-size-18 text-primary'></i>
+                            <div class="ms-3">
+                                <h6 class="mb-1 fw-semibold">Prefered Posting:</h6>
+                                <span class="text-muted">{{user.region.name}}</span>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                   
+                    
+                    <li class="hstack gap-2 mt-3">
+                        <a href="{% url 'authentication:applicants' %}" class="btn btn-primary w-md waves-effect waves-light">Close</a>
+                    </li>
+                    
+                    
+                        
+                    
+                </ul>
+            </div>
+        </div>
+    </div><!--end col-->
+    <div class="col-lg-9">
+        <div class="card">
+            <div class="card-body">
+                
+                <h5 class="mb-3">Academic Qualification</h5>
+                <ul class="verti-timeline list-unstyled">
+                    {% for data in education  %}
+                        <li class="event-list">
+                            <div class="event-timeline-dot">
+                                <i class="bx bx-right-arrow-circle"></i>
+                            </div>
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <div>
+                                        <h6 class="font-size-14 mb-1">
+                                            
+                                            {% if data.studyfield.name == 'Others' %}
+                                                {{data.others|title}}
+                                            {% else %}
+                                                {{data.studyfield|title}}
+                                            {% endif %}
+                                                
+                                            
+                                        </h6>
+                                        <p class="text-muted">{{data.name}} 
+                                            {% if data.completion_date %}
+                                                - ({{data.completion_date}})
+                                            {% endif %} <br>
+                                            <span class="badge text-bg-info">{{data.status}}</span> <br>
+                                        </p>
+                                        
+                    
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                    
+                    
+                </ul>
+                <br>
+                
+                {% if profesional %}
+                    <h5>Professional Qualification</h5>
+                    <ul class="verti-timeline list-unstyled">
+                        {% for data in profesional  %}
+                            <li class="event-list">
+                                <div class="event-timeline-dot">
+                                    <i class="bx bx-right-arrow-circle"></i>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="flex-grow-1">
+                                        <div>
+                                            <h6 class="font-size-14 mb-1">
+                                                
+                                                {% if data.profesionalbody.name == 'Others' %}
+                                                    {{data.others}}
+                                                {% else %}
+                                                    {{data.profesionalbody.name}}
+                                                {% endif %}
+                                            </h6>
+                                            <p class="text-muted">
+                                                
+                                                {% if data.level %}
+                                                    Level - {{data.level}}<br>
+                                                {% endif %}
+                                                {% if data.qualification_date %}
+                                                    {{data.qualification_date}} <br>
+                                                {% endif %}
+                                                    
+                                                <span class="badge text-bg-info">{{data.status}}</span> <br>
+                                                {{data.attachment.name}}
+    
+                                            </p>
+                                            
+                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                        
+                        
+                    </ul>
+
+                {% endif %}
+                <br>
+                {% if work %}
+                    <h5>Work Experience</h5>
+                    <ul class="verti-timeline list-unstyled">
+                        {% for data in work  %}
+                            <li class="event-list">
+                                <div class="event-timeline-dot">
+                                    <i class="bx bx-right-arrow-circle"></i>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="flex-grow-1">
+                                        <div>
+                                            <h6 class="font-size-14 mb-1">
+                                                
+                                               {{data.name}} - {{data.startdate }} to 
+                                               
+                                               {% if data.enddate %}
+                                                  {{data.enddate}}
+                                               {% else %}
+                                                Date
+                                               {% endif %}
+                                                   
+                                               
+                                            </h6>
+                                            <p class="text-muted">
+                                                
+                                                {{data.position}}  <br>
+                                                {{data.refnumber}}
+                                            </p>
+                                            
+                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                        
+                        
+                    </ul>
+
+                {% endif %}
+                <br>
+                <h5 class="mb-2">Curriculum Vitae</h5>
+                <div class='justify-content-center'>
+                    <object data="{{user.attachment.url}}" width="100%" height="800">
+                       <embed src="{{user.attachment.url}}" width="100%" type="application/pdf  height="800">
+                   </object>
+               </div>
+                    
+                
+            </div>
+        </div>
+       
+       
+
+    </div><!--end col-->
+</div>
+
+
+{% endblock %}
+
+{% block extra_content %}  
+    {% #comfirmation name="approve"  %}
+        {% #avatar %}
+            <i class="bx bx-check-double"></i>     
+        {% /avatar %} 
+        {% #comfirmationtext %}
+        Comfirm Application Submission. Application Submitted Cannot Modified
+        {% /comfirmationtext %} 
+        {% #comfirmation_footer %}
+            <a href="#" id ="deleteModalAnchor" class="btn btn-danger">Comfirm</a>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        {% /comfirmation_footer %}     
+    {% /comfirmation %}
+
+{% endblock %}
+
+{% block extra_javascript %}
+
+<!-- Required datatable js -->
+<script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+<!-- Buttons examples -->
+<script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/dist/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+
+<!-- Responsive examples -->
+<script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+<!-- Datatable init js -->
+<script src="{% static 'js/pages/datatables.init.js' %}"></script>
+
+<script src="{% static 'js/auto_modal.js' %}"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+var deleteAnchors = document.getElementsByClassName("delete-record");
+var deleteModalAnchor = document.getElementById("deleteModalAnchor");
+Array.from(deleteAnchors).forEach(function(anchor) {
+anchor.addEventListener("click", function(event) {
+event.preventDefault();
+var recordId = this.getAttribute("data-record-id"); 
+deleteModalAnchor.setAttribute("data-record-id", recordId);
+deleteModalAnchor.setAttribute("href", "/authentication/user/" + recordId + "/application/comfirm/");
+deleteModalAnchor.style.display = "block";
+});
+});
+}); 
+
+
+</script>
+
+
+{% endblock %}
+

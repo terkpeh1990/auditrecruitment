@@ -1,0 +1,67 @@
+{% load static %} {% block sidebar %}
+  <!-- ========== Left Sidebar Start ========== -->
+  <div class="vertical-menu">
+    <div data-simplebar class="h-100">
+      <!-- - Sidemenu -->
+      <div id="sidebar-menu">
+        <!-- Left Menu Start -->
+        <ul class="metismenu list-unstyled" id="side-menu">
+          <!-- <li class="menu-title" key="t-menu">Home</li> -->
+          {% if perms.authentication.custom_create_application %}
+            <li>
+                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                <i class="bx bx-data"></i>
+                <span key="t-products">Application</span>
+                </a>
+                <ul class="sub-menu" aria-expanded="false">
+                   
+                {% if perms.authentication.custom_create_application %}
+                       
+                       {% if request.user.status == 'Pending'  and user.is_applicant %}
+                            <li>
+                                    <a href="{% url 'authentication:biodata' request.user.id %}" key="t-biodata">Bio Data</a>
+                                </li> 
+                                <li>
+                                    <a href="{% url 'authentication:education' request.user.id %}" key="t-education">Academic Qualification</a>
+                                </li> 
+                                <li>
+                                    <a href="{% url 'authentication:professional' request.user.id %}" key="t-professional">Professional Qualification</a>
+                                </li> 
+                                <li>
+                                    <a href="{% url 'authentication:work' request.user.id %}" key="t-professional">Work Experience</a>
+                                </li> 
+                                <li>
+                                    <a href="{% url 'authentication:add-cv' request.user.id %}" key="t-cv">Upload Curriculum Vitae</a>
+                            </li> 
+                       {% endif %}
+                
+                       {% if  user.is_applicant   %}
+                        <li>
+                            <a href="{% url 'authentication:application-overview' request.user.id %}" key="t-review">Review Application</a>
+                        </li> 
+                        
+                        {% endif %}
+                {% endif %}
+                
+                {% if perms.authentication.custom_view_report %}
+                    
+                    <li>
+                        <a href="{% url 'authentication:applicants'  %}" key="t-review">Applications</a>
+                    </li>
+                {% endif %}
+                    
+                </ul>
+            </li>
+          {% endif %}
+          
+          
+          
+          
+         
+        </ul>
+      </div>
+      <!-- Sidebar -->
+    </div>
+  </div>
+  <!-- Left Sidebar End -->
+{% endblock %}
